@@ -11,7 +11,7 @@ import ru.practicum.model.Courier;
 import ru.practicum.steps.CourierSteps;
 
 import static org.hamcrest.Matchers.*;
-
+@DisplayName("Тесты для авторизации курьеров")
 public class CourierLoginTests extends BaseTest{
     private CourierSteps courierSteps;
     private Courier validCourier;

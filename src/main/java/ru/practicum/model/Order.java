@@ -1,6 +1,7 @@
 package ru.practicum.model;
 
 import net.datafaker.Faker;
+
 import java.util.List;
 import java.util.Locale;
 

@@ -17,4 +17,11 @@ public class OrderSteps {
                 .post(RestConfig.ORDER_PATH)
                 .then();
     }
+    @Step("Получить список заказов")
+    public ValidatableResponse getOrders() {
+        return given()
+                .when()
+                .get(RestConfig.ORDER_PATH)
+                .then();
+    }
 }

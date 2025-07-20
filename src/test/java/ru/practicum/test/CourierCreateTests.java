@@ -3,14 +3,13 @@ package ru.practicum.test;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import net.datafaker.Faker;
-
 import org.junit.Before;
 import org.junit.Test;
 import ru.practicum.model.Courier;
 import ru.practicum.steps.CourierSteps;
 
 import static org.hamcrest.Matchers.*;
-
+@DisplayName("Тесты для создания курьеров")
 public class CourierCreateTests extends BaseTest{
     private final CourierSteps courierSteps = new CourierSteps();
     private Courier courier;

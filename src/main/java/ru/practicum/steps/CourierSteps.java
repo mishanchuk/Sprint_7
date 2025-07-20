@@ -1,7 +1,6 @@
 package ru.practicum.steps;
 
 import io.qameta.allure.Step;
-
 import io.restassured.response.ValidatableResponse;
 import ru.practicum.config.RestConfig;
 import ru.practicum.model.Courier;
