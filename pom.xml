@@ -39,6 +39,11 @@
             <artifactId>allure-junit4</artifactId>
             <version>${allure.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.15</version>
+        </dependency>
         <!-- DataFaker -->
         <dependency>
             <groupId>net.datafaker</groupId>

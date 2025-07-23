@@ -1,11 +1,14 @@
 package ru.practicum.test;
 
+import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.response.ValidatableResponse;
 import net.datafaker.Faker;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +16,9 @@ import org.junit.runners.Parameterized;
 import ru.practicum.model.Order;
 import ru.practicum.steps.OrderSteps;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
+import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.Matchers.notNullValue;
 
 @RunWith(Parameterized.class)
@@ -62,10 +63,35 @@ public class OrderCreateTest extends BaseTest{
 
     @Test
     @DisplayName("Создание заказа с разными цветами")
-    public void shouldCreateOrderWithDifferentColors() {
+    @Description("Позитивный тест: проверка создания заказа с различными комбинациями цветов (BLACK, GREY, оба цвета, без цвета). "
+            + "Ожидается код ответа 201 (SC_CREATED) и наличие track-номера в ответе.")
+    public void shouldCreateOrderWithDifferentColorsTest() {
         orderSteps.createOrder(order)
                 .assertThat()
-                .statusCode(201)
+                .statusCode(SC_CREATED)
                 .body("track", notNullValue());
+    }
+    @After
+    @Step("Отмена тестового заказа")
+    @Description("Получение track-номера и отмена созданного заказа после выполнения теста")
+    public void cancelOrder() {
+        try {
+            // Получаем track-номер из ответа на создание заказа
+            ValidatableResponse createResponse = orderSteps.createOrder(order);
+            if (createResponse.extract().statusCode() == SC_CREATED) {
+                Integer trackNumber = createResponse.extract().path("track");
+                if (trackNumber != null) {
+                    // Создаем тело запроса с track-номером
+                    Map<String, Object> requestBody = new HashMap<>();
+                    requestBody.put("track", trackNumber);
+
+                    orderSteps.cancelOrder(requestBody)
+                            .assertThat()
+                            .statusCode(SC_OK);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Ошибка при отмене заказа: " + e.getMessage());
+        }
     }
 }

@@ -5,6 +5,8 @@ import io.restassured.response.ValidatableResponse;
 import ru.practicum.config.RestConfig;
 import ru.practicum.model.Order;
 
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 
 public class OrderSteps {
@@ -22,6 +24,14 @@ public class OrderSteps {
         return given()
                 .when()
                 .get(RestConfig.ORDER_PATH)
+                .then();
+    }
+    @Step("Отменить заказ по track-номеру {track}")
+    public ValidatableResponse cancelOrder(Map<String, Object> body) {
+        return given()
+                .body(body)
+                .when()
+                .put(RestConfig.CENCEL_ORDER_PATH)
                 .then();
     }
 }
